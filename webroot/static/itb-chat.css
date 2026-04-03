@@ -1,0 +1,283 @@
+/* Inspired by Into The Box 2026 — dark hero, orange CTAs + teal/green brand accents */
+:root {
+  --bg-deep: #040d10;
+  --bg-panel: #0a161c;
+  --bg-elevated: #0f2229;
+  --border: rgba(180, 255, 220, 0.07);
+  --text: #f0faf6;
+  --text-muted: #8fb5ad;
+  --accent: #ff6b2c;
+  --accent-glow: rgba(255, 107, 44, 0.28);
+  /* ITB-style greens: mint highlight + deep teal */
+  --green-bright: #5eead4;
+  --green-mid: #2dd4bf;
+  --green-deep: #0d9488;
+  --green-dim: #115e59;
+  --green-glow: rgba(45, 212, 191, 0.22);
+  --accent-2: var(--green-mid);
+  --radius: 14px;
+  --font-sans: "DM Sans", system-ui, -apple-system, sans-serif;
+  --font-display: "Outfit", var(--font-sans);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--text);
+  background: var(--bg-deep);
+  background-image:
+    radial-gradient(ellipse 130% 90% at 50% -25%, rgba(13, 148, 136, 0.35), transparent 55%),
+    radial-gradient(ellipse 100% 70% at 0% 40%, rgba(45, 212, 191, 0.12), transparent 50%),
+    radial-gradient(ellipse 90% 60% at 100% 60%, rgba(17, 94, 89, 0.45), transparent 45%),
+    radial-gradient(ellipse 120% 80% at 50% -20%, rgba(255, 107, 44, 0.12), transparent),
+    radial-gradient(ellipse 60% 45% at 0% 85%, rgba(94, 234, 212, 0.06), transparent);
+  line-height: 1.5;
+}
+
+a {
+  color: var(--accent-2);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+.page {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 3rem;
+}
+
+.brand {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.brand-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, var(--green-bright) 0%, var(--green-mid) 45%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.brand h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.75rem, 5vw, 2.35rem);
+  letter-spacing: -0.02em;
+  margin: 0 0 0.35rem;
+  line-height: 1.15;
+  color: var(--text);
+  text-shadow: 0 0 48px var(--green-glow), 0 0 1px rgba(94, 234, 212, 0.35);
+}
+
+.brand .tagline {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.brand .tagline strong {
+  color: var(--accent-2);
+  font-weight: 600;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.chat-shell {
+  background: linear-gradient(165deg, rgba(15, 34, 41, 0.97) 0%, var(--bg-panel) 50%, rgba(8, 26, 28, 0.98) 100%);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 4px);
+  box-shadow:
+    0 0 0 1px rgba(94, 234, 212, 0.06) inset,
+    0 24px 56px -28px var(--green-glow),
+    0 24px 48px -24px var(--accent-glow);
+  overflow: hidden;
+}
+
+.chat-head {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(90deg, rgba(13, 148, 136, 0.12) 0%, var(--bg-elevated) 35%, var(--bg-panel) 100%);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.chat-head-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--green-bright) 0%, var(--green-deep) 100%);
+  box-shadow: 0 0 14px var(--green-glow), 0 0 6px rgba(255, 107, 44, 0.35);
+  flex-shrink: 0;
+}
+
+.chat-head h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.chat-head span {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+.messages {
+  height: min(52vh, 420px);
+  overflow-y: auto;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  background:
+    linear-gradient(180deg, rgba(4, 20, 22, 0.5) 0%, transparent 40%),
+    radial-gradient(ellipse 80% 50% at 50% 100%, rgba(13, 148, 136, 0.08), transparent);
+}
+
+.msg {
+  max-width: 88%;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.msg.bot {
+  align-self: flex-start;
+  background: linear-gradient(145deg, rgba(15, 34, 41, 0.95) 0%, var(--bg-elevated) 100%);
+  border: 1px solid rgba(94, 234, 212, 0.12);
+  color: var(--text);
+}
+
+.msg.user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, rgba(255, 107, 44, 0.22) 0%, rgba(45, 212, 191, 0.18) 55%, rgba(13, 148, 136, 0.12) 100%);
+  border: 1px solid rgba(45, 212, 191, 0.35);
+  color: var(--text);
+}
+
+.msg .label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--green-mid);
+  margin-bottom: 0.35rem;
+}
+
+.msg.user .label {
+  color: var(--green-bright);
+}
+
+.composer {
+  display: flex;
+  gap: 0.65rem;
+  padding: 1rem 1.25rem 1.25rem;
+  border-top: 1px solid var(--border);
+  background: var(--bg-panel);
+}
+
+.composer input {
+  flex: 1;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.composer input:focus {
+  border-color: rgba(45, 212, 191, 0.55);
+  box-shadow: 0 0 0 3px var(--green-glow), 0 0 0 1px rgba(255, 107, 44, 0.15);
+}
+
+.composer input::placeholder {
+  color: var(--text-muted);
+}
+
+.composer button {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.35rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #031016;
+  background: linear-gradient(135deg, var(--green-mid) 0%, var(--green-bright) 38%, var(--accent) 100%);
+  box-shadow: 0 4px 22px var(--green-glow), 0 4px 18px var(--accent-glow);
+  transition: transform 0.12s, filter 0.12s;
+}
+
+.composer button:hover:not(:disabled) {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+.composer button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.foot {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.foot a {
+  color: var(--green-bright);
+}
+
+.foot a:hover {
+  color: var(--accent);
+}

@@ -1,0 +1,123 @@
+<bx:silent>
+	<bx:script>
+		function requestMethod() {
+			req = getHTTPRequestData( false );
+			if ( isStruct( req ) && structKeyExists( req, "method" ) ) {
+				return uCase( trim( toString( req.method ) ) );
+			}
+			if ( structKeyExists( cgi, "request_method" ) ) {
+				return uCase( trim( toString( cgi.request_method ) ) );
+			}
+			return "GET";
+		}
+
+		function bodyString( required struct reqWithBody ) {
+			if ( !structKeyExists( reqWithBody, "content" ) || isNull( reqWithBody.content ) ) {
+				return "";
+			}
+			c = reqWithBody.content;
+			if ( isBinary( c ) ) {
+				return charsetDecode( c, "utf-8" );
+			}
+			return trim( toString( c ) );
+		}
+
+		function itbSystemPrompt() {
+			return "You are the assistant for Into The Box (ITB) 2026 (https://www.intothebox.org/). "
+				& "Theme: Modernization in Motion — practical modernization for web developers. "
+				& "Dates: April 29–May 1, 2026. Pre-conference workshops April 29; main days April 30–May 1. "
+				& "Location: Washington, DC. Venue: Optica, 2010 Massachusetts Ave NW 20036. Airports: IAD, DCA, BWI. "
+				& "Organizer: Ortus Solutions. Stack: BoxLang, ColdBox, CommandBox, TestBox, ContentBox CMS. "
+				& "Topics: AI, APIs, WebAssembly, microservices, cloud-native, real-time UIs, security, DevOps, and more. "
+				& "Reply in plain text (no markdown unless the user asks). Be concise, friendly, and accurate. "
+				& "If you do not know something specific, say to verify on intothebox.org or the official agenda.";
+		}
+
+		function askBxAi( required string userMessage ) {
+			u = trim( userMessage );
+			if ( !len( u ) ) {
+				return "";
+			}
+			u = left( u, 8000 );
+			try {
+				msgs = aiMessage()
+					.system( itbSystemPrompt() )
+					.user( u );
+				out = aiChat(
+					messages: msgs
+				);
+				ans = trim( toString( out ) );
+				return len( ans ) ? ans : "";
+			} catch ( any e ) {
+				throw e;
+			}
+		}
+
+		function itbReply( required string userMessage ) {
+			m = reReplace( lCase( trim( userMessage ) ), "\s+", " ", "all" );
+			if ( !len( m ) ) {
+				return "Ask me anything about Into The Box 2026 — dates, venue, registration, sessions, or the Ortus ecosystem (BoxLang, ColdBox, CommandBox, TestBox).";
+			}
+			if ( reFind( "^(hi|hello|hey|howdy)\b", m ) || find( "good morning", m ) || find( "good afternoon", m ) ) {
+				return "Hey! Welcome to the ITB corner. I'm here to hype Into The Box 2026 — Modernization in Motion — and point you to the details. What do you want to know: schedule, location, or the Ortus stack?";
+			}
+			if ( find( "modernization", m ) || find( "theme", m ) || find( "motion", m ) ) {
+				return "This year's theme is Modernization in Motion: practical paths to evolve web apps with speed and flexibility — AI, APIs, WASM, microservices, cloud-native patterns, real-time UIs, security, and DevOps all show up on the agenda.";
+			}
+			if ( find( "when", m ) || find( "date", m ) || find( "schedule", m ) || find( "agenda", m ) ) {
+				return "Into The Box 2026 runs April 29 – May 1, 2026. Pre-conference workshops are on the 29th; main conference days are April 30 and May 1. Check the full agenda on https://www.intothebox.org/";
+			}
+			if ( find( "where", m ) || find( "venue", m ) || find( "location", m ) || find( "hotel", m ) ) {
+				return "We're in Washington, DC at Optica — 2010 Massachusetts Ave NW. Nearby airports: IAD, DCA, and BWI. Hotel options are on https://www.intothebox.org/";
+			}
+			if ( find( "register", m ) || find( "ticket", m ) || find( "price", m ) || find( "cost", m ) ) {
+				return "Grab tickets and updates at https://www.intothebox.org/ — registration is the best place to confirm what's included (meals, networking, raffle prizes, product news, and a room full of sharp builders).";
+			}
+			if ( find( "boxlang", m ) ) {
+				return "BoxLang is Ortus' modern dynamic JVM language — a big part of the modernization story alongside ColdBox, CommandBox, TestBox, and the rest of the ecosystem.";
+			}
+			if ( find( "coldbox", m ) || find( "commandbox", m ) || find( "testbox", m ) ) {
+				return "The Ortus ecosystem is built to give teams freedom to modernize on their own terms: ColdBox for app structure, CommandBox for CLI and tooling, TestBox for testing, and BoxLang as the language/runtime direction.";
+			}
+			if ( find( "speaker", m ) || find( "talk", m ) || find( "session", m ) ) {
+				return "The lineup includes Ortus devs and community favorites — Brad Wood, Luis Majano, Gavin Pickin, Eric Peterson, and many more. Speaker bios live on https://www.intothebox.org/";
+			}
+			if ( find( "ai", m ) || find( "trustworthy", m ) || find( "llm", m ) ) {
+				return "ITB leans into cutting-edge topics including AI — practical, production-minded sessions, not just buzzwords. This little bot is a tiny on-theme demo; the real depth is in the conference sessions and hallway track.";
+			}
+			if ( find( "ortus", m ) ) {
+				return "Ortus Solutions creates BoxLang and leading open-source tooling, plus training and consulting. Into The Box is their flagship event for the community.";
+			}
+			if ( find( "thank", m ) ) {
+				return "You're welcome — hope to see you in DC for ITB 2026!";
+			}
+			return "I'm a lightweight ITB guide, not a full LLM. Try asking about dates, venue, registration, BoxLang or ColdBox, or speakers — or visit https://www.intothebox.org/ for everything official.";
+		}
+
+		methodName = requestMethod();
+
+		if ( methodName != "POST" ) {
+			jsonOut = { "reply": "", "error": "Method not allowed" };
+			statusCode = 405;
+		} else {
+			reqFull = getHTTPRequestData( true );
+			raw = bodyString( reqFull );
+			msg = "";
+			if ( len( raw ) && isJSON( raw ) ) {
+				body = raw.fromJSON();
+				if ( isStruct( body ) && structKeyExists( body, "message" ) ) {
+					msg = toString( body.message );
+				}
+			}
+			aiText = askBxAi( msg );
+			if ( len( aiText ) ) {
+				jsonOut = { "reply": aiText, "source": "bx-ai" };
+			} else {
+				jsonOut = { "reply": itbReply( msg ), "source": "fallback" };
+			}
+			statusCode = 200;
+		}
+
+		payload = jsonOut.toJSON();
+	</bx:script>
+</bx:silent><bx:header name="Content-Type" value="application/json; charset=utf-8" statusCode="#statusCode#" /><bx:output>#payload#</bx:output>
