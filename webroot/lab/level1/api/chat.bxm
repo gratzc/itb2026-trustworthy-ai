@@ -1,0 +1,59 @@
+<bx:silent>
+	<bx:script>
+		labLevel = 1;
+
+		function requestMethod() {
+			req = getHTTPRequestData( false );
+			if ( isStruct( req ) && structKeyExists( req, "method" ) ) {
+				return uCase( trim( toString( req.method ) ) );
+			}
+			if ( structKeyExists( cgi, "request_method" ) ) {
+				return uCase( trim( toString( cgi.request_method ) ) );
+			}
+			return "GET";
+		}
+
+		function bodyString( required struct reqWithBody ) {
+			if ( !structKeyExists( reqWithBody, "content" ) || isNull( reqWithBody.content ) ) {
+				return "";
+			}
+			c = reqWithBody.content;
+			if ( isBinary( c ) ) {
+				return charsetDecode( c, "utf-8" );
+			}
+			return trim( toString( c ) );
+		}
+
+		methodName = requestMethod();
+
+		if ( methodName != "POST" ) {
+			jsonOut = { "reply": "", "error": "Method not allowed" };
+			statusCode = 405;
+		} else {
+			reqFull = getHTTPRequestData( true );
+			raw = bodyString( reqFull );
+			msg = "";
+			if ( len( raw ) && isJSON( raw ) ) {
+				body = raw.fromJSON();
+				if ( isStruct( body ) && structKeyExists( body, "message" ) ) {
+					msg = toString( body.message );
+				}
+			}
+			pipeline = new lab.lib.PromptLabPipeline();
+			res = pipeline.handle( labLevel, msg );
+			src = structKeyExists( res, "source" ) ? res.source : "pipeline";
+			if ( structKeyExists( res, "error" ) && len( trim( toString( res.error ) ) ) ) {
+				jsonOut = {
+					"reply": len( trim( toString( res.reply ) ) ) ? toString( res.reply ) : "",
+					"error": toString( res.error ),
+					"source": src
+				};
+			} else {
+				jsonOut = { "reply": toString( res.reply ), "source": src };
+			}
+			statusCode = 200;
+		}
+
+		payload = jsonOut.toJSON();
+	</bx:script>
+</bx:silent><bx:header name="Content-Type" value="application/json; charset=utf-8" statusCode="#statusCode#" /><bx:output>#payload#</bx:output>

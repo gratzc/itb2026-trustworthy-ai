@@ -281,3 +281,79 @@ a:hover {
 .foot a:hover {
   color: var(--accent);
 }
+
+/* --- AI Safety Lab --- */
+.lab-hub-panel .lab-hub-body {
+  padding: 1.1rem 1.25rem 1.35rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.lab-lead {
+  color: var(--text);
+  margin-top: 0;
+}
+
+.lab-level-list {
+  margin: 1rem 0 0;
+  padding-left: 1.25rem;
+  color: var(--text-muted);
+}
+
+.lab-level-list li {
+  margin: 0.5rem 0;
+}
+
+.lab-level-list a {
+  color: var(--green-bright);
+  font-weight: 600;
+}
+
+.lab-level-list a:hover {
+  color: var(--accent);
+}
+
+.lab-def {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-top: 0.15rem;
+}
+
+.lab-scenario {
+  max-width: 640px;
+  margin: 0 auto 1.25rem;
+  padding: 0 0.25rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.lab-scenario a {
+  color: var(--green-bright);
+}
+
+.lab-scenario code {
+  font-size: 0.85em;
+  padding: 0.1em 0.35em;
+  border-radius: 6px;
+  background: var(--bg-elevated);
+  color: var(--green-bright);
+}
+
+.lab-hints {
+  max-width: 640px;
+  margin: 0 auto 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  border: 1px dashed var(--green-dim);
+  background: rgba(13, 148, 136, 0.08);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.lab-hints strong {
+  color: var(--green-bright);
+}

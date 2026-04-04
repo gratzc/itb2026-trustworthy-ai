@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>ITB AI Safety Lab — Prompt injection demos</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&amp;family=Outfit:wght@600;700;800&amp;display=swap" rel="stylesheet" />
+	<link rel="stylesheet" href="/static/itb-chat.css" />
+</head>
+<body>
+	<div class="page">
+		<header class="brand">
+			<div class="brand-badge">Into The Box 2026</div>
+			<h1>AI Safety Lab</h1>
+			<p class="tagline">Hands-on <strong>prompt injection</strong> levels for CFML / BoxLang developers — fictional ITB discount codes only.</p>
+			<div class="meta">
+				<span><a href="/">ITB chat home</a></span>
+				<span><a href="https://www.intothebox.org/">intothebox.org</a></span>
+			</div>
+		</header>
+
+		<section class="chat-shell lab-hub-panel" aria-label="Lab overview">
+			<div class="chat-head">
+				<span class="chat-head-dot" aria-hidden="true"></span>
+				<h2>Authorized demo only</h2>
+				<span>Education / conference talk</span>
+			</div>
+			<div class="lab-hub-body">
+				<p class="lab-lead">Use these exercises only on systems you own or have permission to test. The goal is to show why <strong>LLMs are poor secret keepers</strong> and why filters alone fail — not to attack third-party services.</p>
+				<p>Each level is a separate Boxton promo bot with different defenses. Progress from “intended use” through input/output filters, a second reviewer model, and a simulated human-in-the-loop. Chat-only flow: your “win” is observing how each defense breaks. Presenters: add <code>?hints=1</code> to any level URL to show on-page notes.</p>
+				<ol class="lab-level-list">
+					<li><a href="/lab/level1/">Level 1 — Intended use</a> <span class="lab-def">Public welcome code only</span></li>
+					<li><a href="/lab/level2/">Level 2 — Prompt-only guard</a> <span class="lab-def">Weak system rules</span></li>
+					<li><a href="/lab/level3/">Level 3 — Input filter</a> <span class="lab-def">English blocklist</span></li>
+					<li><a href="/lab/level4/">Level 4 — Output filter</a> <span class="lab-def">Secret substring stripped</span></li>
+					<li><a href="/lab/level5/">Level 5 — Input + output</a> <span class="lab-def">Stacked naive filters</span></li>
+					<li><a href="/lab/level6/">Level 6 — Second LLM guard</a> <span class="lab-def">Reviewer model</span></li>
+					<li><a href="/lab/level7/">Level 7 — Human review (simulated)</a> <span class="lab-def">Visible vs hidden text</span></li>
+				</ol>
+			</div>
+		</section>
+
+		<p class="foot">
+			Inspired by Secure Code Warrior Cybermon “Bypassaur” walkthrough · <a href="https://ai.boxlang.io/">BoxLang AI (bx-ai)</a>
+		</p>
+	</div>
+</body>
+</html>
