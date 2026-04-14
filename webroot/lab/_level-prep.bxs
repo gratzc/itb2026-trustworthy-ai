@@ -1,5 +1,5 @@
 // Sets labLevel, cfg, openBotJson via level-view-data.bxs. Call from lab/level/index.bxm, then include level-shell-render.bxs.
-// Level: ?level=1..6 on /lab/level/ (defaults to 1 when omitted).
+// Level: ?level=1..5 on /lab/level/ (defaults to 1 when omitted).
 
 function labLevelFromQueryString() {
 	if ( !structKeyExists( cgi, "query_string" ) ) {
@@ -27,7 +27,7 @@ labLevel = labLevelFromQueryString();
 if ( labLevel < 1 ) {
 	labLevel = 1;
 }
-if ( labLevel > 6 ) {
-	labLevel = 6;
+if ( labLevel > 5 ) {
+	labLevel = 5;
 }
 include template="level-view-data.bxs";

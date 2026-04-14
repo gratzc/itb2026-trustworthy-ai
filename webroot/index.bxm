@@ -29,14 +29,13 @@
 			</div>
 			<div class="lab-hub-body">
 				<p class="lab-lead">Use these exercises only on systems you own or have permission to test. The goal is to show why <strong>LLMs are poor secret keepers</strong> and why filters alone fail — not to attack third-party services.</p>
-				<p>Each level is a separate Boxton promo bot with different defenses. Progress from “intended use” through input filtering, stacked input+output filtering, a second reviewer model, and a simulated human-in-the-loop. Chat-only flow: your “win” is observing how each defense breaks. Presenters: add <code>&amp;hints=1</code> to a level URL (for example <code>/lab/level/?level=3&amp;hints=1</code>) to show on-page notes.</p>
+				<p>Each level is a separate Boxton promo bot with different defenses. Progress from “intended use” through input filtering, stacked input+output filtering, and finally a second reviewer model. Chat-only flow: your “win” is observing how each defense breaks. Presenters: add <code>&amp;hints=1</code> to a level URL (for example <code>/lab/level/?level=3&amp;hints=1</code>) to show on-page notes.</p>
 				<ol class="lab-level-list">
 					<li><a href="/lab/level/?level=1">Level 1 — Intended use</a> <span class="lab-def">Public welcome code only</span></li>
 					<li><a href="/lab/level/?level=2">Level 2 — Prompt-only guard</a> <span class="lab-def">Weak system rules</span></li>
 					<li><a href="/lab/level/?level=3">Level 3 — Input filter</a> <span class="lab-def">English blocklist</span></li>
 					<li><a href="/lab/level/?level=4">Level 4 — Input + output</a> <span class="lab-def">Stacked naive filters</span></li>
 					<li><a href="/lab/level/?level=5">Level 5 — Second LLM guard</a> <span class="lab-def">Reviewer model</span></li>
-					<li><a href="/lab/level/?level=6">Level 6 — Human review (simulated)</a> <span class="lab-def">Visible vs hidden text</span></li>
 				</ol>
 			</div>
 		</section>
