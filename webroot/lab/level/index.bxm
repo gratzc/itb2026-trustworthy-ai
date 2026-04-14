@@ -1,0 +1,4 @@
+<bx:script>
+	include template="../_level-prep.bxs";
+	include template="../level-shell-render.bxs";
+</bx:script>

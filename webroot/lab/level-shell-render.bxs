@@ -1,0 +1,55 @@
+// Renders lab level HTML after _level-prep.bxs + level-view-data.bxs (variables.cfg, variables.labLevel, variables.openBotJson).
+
+c = variables.cfg;
+lvl = variables.labLevel;
+ob = variables.openBotJson;
+
+writeOutput( "<!DOCTYPE html>
+<html lang=""en"">
+<head>
+	<meta charset=""utf-8"" />
+	<meta name=""viewport"" content=""width=device-width, initial-scale=1"" />
+	<title>" & encodeForHTML( c.pageTitle ) & "</title>
+	<link rel=""preconnect"" href=""https://fonts.googleapis.com"" />
+	<link rel=""preconnect"" href=""https://fonts.gstatic.com"" crossorigin />
+	<link href=""https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&amp;family=Outfit:wght@600;700;800&amp;display=swap"" rel=""stylesheet"" />
+	<link rel=""stylesheet"" href=""/static/itb-chat.css"" />
+</head>
+<body>
+	<div class=""page"">
+		<header class=""brand"">
+			<div class=""brand-badge"">" & c.badge & "</div>
+			<h1>" & encodeForHTML( c.title ) & "</h1>
+			<p class=""tagline"">" & c.taglineHTML & "</p>
+			<div class=""meta"">" & c.metaHTML & "</div>
+		</header>
+
+		<p class=""lab-scenario"">" & c.scenarioHTML & "</p>
+		<div id=""lab-hints"" class=""lab-hints"" hidden>" & c.hintHTML & "</div>
+
+		<section class=""chat-shell"" aria-label=""" & encodeForHTML( c.ariaLabel ) & """>
+			<div class=""chat-head"">
+				<span class=""chat-head-dot"" aria-hidden=""true""></span>
+				<h2>Boxton · Level " & lvl & "</h2>
+				<span>" & encodeForHTML( c.defenseLabel ) & "</span>
+			</div>
+			<div id=""messages"" class=""messages"" role=""log"" aria-live=""polite"" aria-relevant=""additions""></div>
+			<form id=""composer"" class=""composer"" autocomplete=""off"">
+				<input type=""text"" id=""message"" name=""message"" placeholder=""" & encodeForHTML( c.placeholder ) & """ maxlength=""2000"" required />
+				<button type=""submit"" id=""send"">Send</button>
+			</form>
+		</section>
+
+		<p class=""foot"">" & c.footHTML & "</p>
+	</div>
+
+" );
+	writeOutput( "	<script>window.ITB_LAB_LEVEL=" );
+	writeOutput( lvl );
+	writeOutput( ";window.ITB_OPEN_MSG=" );
+	writeOutput( ob );
+	writeOutput( ";<" );
+	writeOutput( "/script>
+	<script src=""/static/lab-chat.js""></script>
+</body>
+</html>" );

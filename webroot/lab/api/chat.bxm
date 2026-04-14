@@ -1,7 +1,5 @@
 <bx:silent>
 	<bx:script>
-		labLevel = 7;
-
 		function requestMethod() {
 			req = getHTTPRequestData( false );
 			if ( isStruct( req ) && structKeyExists( req, "method" ) ) {
@@ -24,6 +22,24 @@
 			return trim( toString( c ) );
 		}
 
+		function parseLevel( required struct body ) {
+			lvl = 1;
+			if ( structKeyExists( body, "level" ) ) {
+				try {
+					lvl = int( val( body.level ) );
+				} catch ( any e ) {
+					lvl = 1;
+				}
+			}
+			if ( lvl < 1 ) {
+				lvl = 1;
+			}
+			if ( lvl > 7 ) {
+				lvl = 7;
+			}
+			return lvl;
+		}
+
 		methodName = requestMethod();
 
 		if ( methodName != "POST" ) {
@@ -33,14 +49,18 @@
 			reqFull = getHTTPRequestData( true );
 			raw = bodyString( reqFull );
 			msg = "";
+			lvl = 1;
 			if ( len( raw ) && isJSON( raw ) ) {
 				body = raw.fromJSON();
 				if ( isStruct( body ) && structKeyExists( body, "message" ) ) {
 					msg = toString( body.message );
 				}
+				if ( isStruct( body ) ) {
+					lvl = parseLevel( body );
+				}
 			}
 			pipeline = new lab.lib.PromptLabPipeline();
-			res = pipeline.handle( labLevel, msg );
+			res = pipeline.handle( lvl, msg );
 			src = structKeyExists( res, "source" ) ? res.source : "pipeline";
 			if ( structKeyExists( res, "error" ) && len( trim( toString( res.error ) ) ) ) {
 				jsonOut = {
