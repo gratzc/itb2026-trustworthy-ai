@@ -34,8 +34,8 @@
 			if ( lvl < 1 ) {
 				lvl = 1;
 			}
-			if ( lvl > 7 ) {
-				lvl = 7;
+			if ( lvl > 6 ) {
+				lvl = 6;
 			}
 			return lvl;
 		}
