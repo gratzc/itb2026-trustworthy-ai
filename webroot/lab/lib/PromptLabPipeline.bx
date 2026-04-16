@@ -112,13 +112,38 @@ class {
 		return false;
 	}
 
+	/**
+	 * Params for aiChat so the configured model wins over bx-ai OllamaService hardcoded defaults.
+	 * @see bxModules.bxai.models.providers.OllamaService DEFAULT_CHAT_PARAMS
+	 */
+	private struct function bxAiChatParams() {
+		st = getModuleInfo( "bxai" ).settings;
+		out = {};
+		if ( structKeyExists( st, "defaultParams" ) && isStruct( st.defaultParams ) ) {
+			out.append( st.defaultParams, true );
+		}
+		prov = st.provider ?: "";
+		if ( len( prov ) && structKeyExists( st, "providers" ) && isStruct( st.providers ) ) {
+			for ( pk in st.providers.keyArray() ) {
+				if ( lCase( pk ) == lCase( prov ) ) {
+					ent = st.providers[ pk ];
+					if ( isStruct( ent ) && structKeyExists( ent, "params" ) && isStruct( ent.params ) ) {
+						out.append( ent.params, true );
+					}
+					break;
+				}
+			}
+		}
+		return out;
+	}
+
 	private function runChat( required string systemPrompt, required string userMessage ) {
 		systemOutput("systemPrompt: " & systemPrompt);
 		systemOutput("userMessage: " & userMessage);
 		msgs = aiMessage()
 			.system( systemPrompt )
 			.user( userMessage );
-		out = aiChat( messages: msgs );
+		out = aiChat( messages: msgs, params: bxAiChatParams() );
 		systemOutput("out: " & out);
 		return trim( toString( out ) );
 	}
@@ -133,7 +158,7 @@ class {
 		msgs = aiMessage()
 			.system( gsys )
 			.user( "Assistant reply to review:\n" & primaryReply );
-		out = aiChat( messages: msgs );
+		out = aiChat( messages: msgs, params: bxAiChatParams() );
 		systemOutput("out: " & out);
 		return trim( toString( out ) );
 	}

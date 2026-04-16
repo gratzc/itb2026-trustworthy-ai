@@ -3,3 +3,4 @@ boxlang_modules
 .vscode
 .env
 .boxlang.json
+.boxlang-gemini.json
